@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
+import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
@@ -25,25 +26,33 @@ public class FGrecaptchaPlugin implements FlutterPlugin, ActivityAware, MethodCa
     // activity required to call SafetyNet API
     private Activity activity;
 
-    // default constructor required by Flutter
     FGrecaptchaPlugin() {
-    }
-
-    // this constructor required for static registerWith
-    FGrecaptchaPlugin(Activity activity) {
-        this.activity = activity;
     }
 
     // static registerWith required to support older v1 Android Embeddings
     public static void registerWith(Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), "f_grecaptcha");
-        channel.setMethodCallHandler(new FGrecaptchaPlugin(registrar.activity()));
+        final FGrecaptchaPlugin plugin = new FGrecaptchaPlugin();
+        plugin.init(registrar.messenger(), registrar.activity());
+
+    }
+
+    public void init(BinaryMessenger messenger, Activity activity) {
+        initChannel(messenger);
+        initActivity(activity);
+    }
+
+    private void initChannel(BinaryMessenger messenger) {
+        channel = new MethodChannel(messenger, "f_grecaptcha");
+        channel.setMethodCallHandler(this);
+    }
+
+    private void initActivity(Activity activity) {
+        this.activity = activity;
     }
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
-        channel = new MethodChannel(binding.getBinaryMessenger(), "f_grecaptcha");
-        channel.setMethodCallHandler(this);
+        initChannel(binding.getBinaryMessenger());
     }
 
     @Override
@@ -53,7 +62,7 @@ public class FGrecaptchaPlugin implements FlutterPlugin, ActivityAware, MethodCa
 
     @Override
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
-        activity = binding.getActivity();
+        initActivity(binding.getActivity());
     }
 
     @Override
@@ -63,7 +72,7 @@ public class FGrecaptchaPlugin implements FlutterPlugin, ActivityAware, MethodCa
 
     @Override
     public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
-        activity = binding.getActivity();
+        initActivity(binding.getActivity());
     }
 
     @Override
