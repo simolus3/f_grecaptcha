@@ -26,7 +26,7 @@ public class FGrecaptchaPlugin implements FlutterPlugin, ActivityAware, MethodCa
     // activity required to call SafetyNet API
     private Activity activity;
 
-    FGrecaptchaPlugin() {
+    public FGrecaptchaPlugin() {
     }
 
     // static registerWith required to support older v1 Android Embeddings
