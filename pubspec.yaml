@@ -1,11 +1,11 @@
 name: f_grecaptcha
 description: Allows accessing the SafetyNet reCaptcha API for android devices in flutter.
-version: 1.0.1
-author: simolus3 <simolus3@gmail.com>
+version: 1.1.0
 homepage: https://github.com/simolus3/f_grecaptcha
 
 environment:
-  sdk: ">=1.19.0 <3.0.0"
+  sdk: ">=2.0.0 <3.0.0"
+  flutter: ">=1.12.0 <2.0.0"
 
 dependencies:
   flutter:
@@ -13,5 +13,7 @@ dependencies:
 
 flutter:
   plugin:
-    androidPackage: de.simolus3.fgrecaptcha
-    pluginClass: FGrecaptchaPlugin
+    platforms:
+      android:
+        package: de.simolus3.fgrecaptcha
+        pluginClass: FGrecaptchaPlugin

@@ -1,6 +1,11 @@
 name: f_grecaptcha_example
 description: Demonstrates how to use the f_grecaptcha plugin.
 
+environment:
+  sdk: ">=2.0.0 <3.0.0"
+  flutter: ">=1.12.0 <2.0.0"
+
+
 dependencies:
   flutter:
     sdk: flutter
